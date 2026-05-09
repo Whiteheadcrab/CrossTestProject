@@ -16,8 +16,8 @@ public class Main {
         //Print out games name and cost
         System.out.println("Game shop");
         System.out.println("1. " + game_1.name() + " - costs - " + game_1.price() + "PLN");
-        System.out.println("2. " + game_2.name() + " - costs - " + game_1.price() + "PLN");
-        System.out.println("3. " + game_3.name() + " - costs - " + game_1.price() + "PLN");
+        System.out.println("2. " + game_2.name() + " - costs - " + game_2.price() + "PLN");
+        System.out.println("3. " + game_3.name() + " - costs - " + game_3.price() + "PLN");
         System.out.println("4. " + game_4.name() + " - costs - " + game_4.price() + "PLN");
         System.out.println("5. " + game_5.name() + " - costs - " + game_5.price() + "PLN");
         System.out.println("6. " + game_6.name() + " - costs - " + game_6.price() + "PLN");
