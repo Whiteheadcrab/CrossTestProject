@@ -5,13 +5,13 @@ import java.math.BigDecimal;
 public class Main {
     public static void main(String[] args) {
         //Create first games and their prices
-        Game game_1 = new Game("The Witcher 3", new BigDecimal("39.99"));
-        Game game_2 = new Game("How to craft everything", new BigDecimal("14.99"));
-        Game game_3 = new Game("Evil Hospital: Run from them", new BigDecimal("29.99"));
-        Game game_4 = new Game("Space Farmers", new BigDecimal("19.50"));
-        Game game_5 = new Game("Pixel Racing League", new BigDecimal("25.00"));
-        Game game_6 = new Game("Dragon Cafe Manager", new BigDecimal("40.00"));
-        Game game_7 = new Game("Castle Defense Heroes", new BigDecimal("9.99"));
+        Game game_1 = new Game("The Witcher 3", new BigDecimal("39.99") , Game.Category.RPG);
+        Game game_2 = new Game("How to craft everything", new BigDecimal("14.99") , Game.Category.SURVIVAL);
+        Game game_3 = new Game("Evil Hospital: Run from them", new BigDecimal("29.99") , Game.Category.HORROR);
+        Game game_4 = new Game("Space Farmers", new BigDecimal("19.50") , Game.Category.STRATEGY);
+        Game game_5 = new Game("Pixel Racing League", new BigDecimal("25.00") , Game.Category.RACING);
+        Game game_6 = new Game("Dragon Cafe Manager", new BigDecimal("40.00") , Game.Category.SIMULATION);
+        Game game_7 = new Game("Castle Defense Heroes", new BigDecimal("9.99") , Game.Category.STRATEGY);
 
         //Print out games name and cost
         System.out.println("Game shop");
