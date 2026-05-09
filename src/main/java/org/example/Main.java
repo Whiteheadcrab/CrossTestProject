@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 public class Main {
     public static void main(String[] args) {
+        //Create first games and their prices
         Game game_1 = new Game("The Witcher 3", new BigDecimal("39.99"));
         Game game_2 = new Game("How to craft everything", new BigDecimal("14.99"));
         Game game_3 = new Game("Evil Hospital: Run from them", new BigDecimal("29.99"));
@@ -12,6 +13,7 @@ public class Main {
         Game game_6 = new Game("Dragon Cafe Manager", new BigDecimal("40.00"));
         Game game_7 = new Game("Castle Defense Heroes", new BigDecimal("9.99"));
 
+        //Print out games name and cost
         System.out.println("Game shop");
         System.out.println("1. " + game_1.name() + " - costs - " + game_1.price() + "PLN");
         System.out.println("2. " + game_2.name() + " - costs - " + game_1.price() + "PLN");
