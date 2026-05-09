@@ -2,7 +2,7 @@ package org.example;
 
 import java.math.BigDecimal;
 
-public record Game(String name, BigDecimal price , Category category) {
+public record Game(int id, String name, BigDecimal price, Category category) {
 
     public enum Category {
         RPG,
