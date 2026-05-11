@@ -5,11 +5,23 @@ import java.math.BigDecimal;
 public record Game(int id, String name, BigDecimal price, Category category) {
 
     public enum Category {
-        RPG,
-        SURVIVAL,
+        ACTION,
+        ADVENTURE,
+        ARCADE,
+        CARD,
+        FIGHTING,
+        HORROR,
+        MMO,
+        PLATFORMER,
+        PUZZLE,
         RACING,
-        STRATEGY,
+        RPG,
+        SANDBOX,
+        SHOOTER,
         SIMULATION,
-        HORROR
+        SPORTS,
+        SURVIVAL,
+        STRATEGY,
+        TACTICAL
     }
 }
