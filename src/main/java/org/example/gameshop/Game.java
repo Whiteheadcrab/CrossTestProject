@@ -1,4 +1,4 @@
-package org.example;
+package org.example.gameshop;
 
 import java.math.BigDecimal;
 import java.util.List;
