@@ -9,6 +9,9 @@ public record Game(int id, String name, BigDecimal price, List<Category> categor
         if (categories == null || categories.isEmpty()) {
             throw new IllegalArgumentException("Game must have at least one category");
         }
+
+        //Copy the list inside the record , which prevents from modifying it after creating a Game
+        categories = List.copyOf(categories);
     }
 
     public enum Category {
