@@ -1,7 +1,7 @@
-package org.example;
+package org;
 
-import org.example.gameshop.Game;
-import org.example.gameshop.GameCatalog;
+import org.gameshop.Game;
+import org.gameshop.GameCatalog;
 
 
 public class Main {
