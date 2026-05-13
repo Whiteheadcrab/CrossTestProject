@@ -5,6 +5,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
 import org.gameshop.Game;
+import org.gameshop.Converters.GameCategoryConverter;
 import org.gameshop.GameCatalog;
 
 import java.util.*;
@@ -46,9 +47,7 @@ public class GameCatalogSteps {
 
     @When("I search games by game's categories {string}")
     public List<Game> searchGameByGameCategories(String gameCategories) {
-        List<Game.Category> categories = Arrays.stream(gameCategories.split(","))
-                .map(Game.Category::from)
-                .toList();
+        List<Game.Category> categories = GameCategoryConverter.fromCommaSeparatedText(gameCategories);
 
         foundGames = gameCatalog.findByCategories(categories);
         return foundGames;

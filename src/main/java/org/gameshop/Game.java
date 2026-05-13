@@ -32,11 +32,6 @@ public record Game(int id, String name, BigDecimal price, List<Category> categor
         SPORTS,
         SURVIVAL,
         STRATEGY,
-        TACTICAL;
-
-        // Converter for list of categories
-        public static Category from(String value) {
-            return Category.valueOf(value.trim().toUpperCase());
-        }
+        TACTICAL
     }
 }
