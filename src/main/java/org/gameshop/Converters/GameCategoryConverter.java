@@ -9,12 +9,14 @@ public final class GameCategoryConverter {
     private GameCategoryConverter() {
     }
 
-    public static Game.Category fromText(String value) {
-        return Game.Category.valueOf(value.trim().toUpperCase());
+    //Converter for variable with single category
+    public static Game.Category fromText(String category) {
+        return Game.Category.valueOf(category.trim().toUpperCase());
     }
 
-    public static List<Game.Category> fromCommaSeparatedText(String values) {
-        return Arrays.stream(values.split(","))
+    //Converter for variable with multiple categories
+    public static List<Game.Category> fromCommaSeparatedText(String categories) {
+        return Arrays.stream(categories.split(","))
                 .map(GameCategoryConverter::fromText)
                 .toList();
     }
