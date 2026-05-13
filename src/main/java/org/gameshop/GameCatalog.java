@@ -47,11 +47,22 @@ public class GameCatalog {
     //Function to find game item by its category
     public List<Game> findByCategory(Game.Category category) {
         if (category == null) {
-            throw new IllegalArgumentException("Category cannot be null");
+            throw new IllegalArgumentException("Category cannot be null or empty");
         }
 
         return games.stream()
                 .filter(game -> game.categories().contains(category))
+                .toList();
+    }
+
+    //Function to find game items that contain all selected categories
+    public List<Game> findByCategories(List<Game.Category> categories) {
+        if (categories == null || categories.isEmpty()) {
+            throw new IllegalArgumentException("Lost of Categories cannot be null or empty");
+        }
+
+        return games.stream()
+                .filter(game -> game.categories().containsAll(categories))
                 .toList();
     }
 
