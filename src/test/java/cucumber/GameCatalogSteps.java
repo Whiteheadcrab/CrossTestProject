@@ -7,10 +7,12 @@ import io.cucumber.java.en.Then;
 import org.gameshop.Game;
 import org.gameshop.GameCatalog;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class GameCatalogSteps {
+
+    //Lit for found games
+    private List<Game> foundGames = new ArrayList<>();
     //Created object for Game catalog
     private final GameCatalog gameCatalog = new GameCatalog();
     //Created object for game
@@ -38,7 +40,18 @@ public class GameCatalogSteps {
 
     @When("I search games by game's category {string}")
     public List<Game> searchGameByGameCategory(String gameCategory) {
-        return gameCatalog.findByCategory(Game.Category.valueOf(gameCategory));
+        foundGames = gameCatalog.findByCategory(Game.Category.valueOf(gameCategory));
+        return foundGames;
+    }
+
+    @When("I search games by game's categories {string}")
+    public List<Game> searchGameByGameCategories(String gameCategories) {
+        List<Game.Category> categories = Arrays.stream(gameCategories.split(","))
+                .map(Game.Category::from)
+                .toList();
+
+        foundGames = gameCatalog.findByCategories(categories);
+        return foundGames;
     }
 
     @Then("I verify found game is {string}")
