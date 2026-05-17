@@ -10,6 +10,9 @@ import org.gameshop.GameCatalog;
 
 import java.util.*;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+
 public class GameCatalogSteps {
 
     //Lit for found games
@@ -31,7 +34,7 @@ public class GameCatalogSteps {
 
     @When("I search game by id {int}")
     public Game searchGameById(int id) {
-        foundGame =  gameCatalog.findById(id);
+        foundGame = gameCatalog.findById(id);
         return foundGame;
     }
 
@@ -61,35 +64,26 @@ public class GameCatalogSteps {
         return foundGames;
     }
 
-    @Then("I verify found game is {string}")
-    public void verifyFoundGame(String expectedGameName) {
+    @Then("I will verify that found game (is|is not) - {string}")
+    public void verifyFoundGame(String equalityMode, String expectedGameName) {
+        // if foundGame is null, then foundGame.name() will throw NullPointerException before assertEquals runs
         if (notFoundError != null) {
             throw new AssertionError(notFoundError.getMessage());
         }
+        switch (equalityMode) {
+            case "is":
+            {
+                    assertEquals(expectedGameName, foundGame.name(),
+                            "Expected game name to be " + expectedGameName + ", but found " + foundGame.name());
 
-        if (!foundGame.name().equals(expectedGameName)) {
-            throw new AssertionError("Expected " + expectedGameName + ", but found " + foundGame.name());
+            }
+            break;
+            case "is not":
+            {
+                    assertNotEquals(expectedGameName, foundGame.name(),
+                            "Game should not be " + expectedGameName);
+            }
+            break;
         }
     }
-
-    @Then("I verify not able to find game - {string}")
-    public void verifyNotAbleToFindGame(String expectedErrorMessage) {
-        if (notFoundError == null) {
-            throw new AssertionError("Expected game search error, but game was found: " + foundGame);
-        }
-
-        if (!notFoundError.getMessage().equals(expectedErrorMessage)) {
-            throw new AssertionError("Expected " + expectedErrorMessage + ", but found " + notFoundError.getMessage());
-        }
-    }
-
-    // Requires fix: {game} is not registered as a Cucumber parameter type yet.
-//    @Then("I verify found game all data similar to {game}")
-//    public void verifyFoundGameData(Game expectedGame) {
-//        if (!foundGame.equals(expectedGame)) {
-//            throw new AssertionError("Expected and actual game data are not equal" +
-//                    "\n" + "Expected data -" + expectedGame +
-//                    "\n" + "Actual data -" + foundGame);
-//        }
-//    }
 }
