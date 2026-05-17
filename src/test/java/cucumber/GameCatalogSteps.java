@@ -64,7 +64,7 @@ public class GameCatalogSteps {
         return foundGames;
     }
 
-    @Then("I will verify that found game (is|is not) - {string}")
+    @Then("^I will verify that found game name (is|is not) - \"([^\"]*)\"$")
     public void verifyFoundGame(String equalityMode, String expectedGameName) {
         // if foundGame is null, then foundGame.name() will throw NullPointerException before assertEquals runs
         if (notFoundError != null) {
