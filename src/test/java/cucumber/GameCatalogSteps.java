@@ -1,6 +1,7 @@
 package cucumber;
 
 import io.cucumber.datatable.DataTable;
+import io.cucumber.java.PendingException;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
@@ -10,8 +11,8 @@ import org.gameshop.GameCatalog;
 
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class GameCatalogSteps {
 
@@ -85,5 +86,13 @@ public class GameCatalogSteps {
             }
             break;
         }
+    }
+
+    @Then("I will verify that no game was found")
+    public void verifyFoundGameNotExist() {
+        // Write code here that turns the phrase above into concrete actions
+        assertNotNull(notFoundError, "Expected no game to be found");
+        assertNull(foundGame, "Expected found game to be empty");
+
     }
 }
