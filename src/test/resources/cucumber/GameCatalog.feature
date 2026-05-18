@@ -8,6 +8,18 @@ Feature: Game catalog
     When I search game by name "Sky Jump Legends"
     Then I will verify that found game name is not - "Tactical Sports League"
 
-  Scenario: Search game by name - found game is not equal to found game
+  Scenario: Search game by name - game not found
     When I search game by name "Minecraft"
+    Then I will verify that no game was found
+
+  Scenario: Search game by id - found game is equal to expected game via name
+    When I search game by id 7
+    Then I will verify that found game name is - "Castle Defense Heroes"
+
+  Scenario: Search game by id - found game is not equal to expected game via name
+    When I search game by id 14
+    Then I will verify that found game name is not - "Dungeon Cards Online"
+
+  Scenario: Search game by id - ame not found
+    When I search game by id 99
     Then I will verify that no game was found
