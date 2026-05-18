@@ -35,7 +35,13 @@ public class GameCatalogSteps {
 
     @When("I search game by id {int}")
     public Game searchGameById(int id) {
-        foundGame = gameCatalog.findById(id);
+        notFoundError = null;
+        try {
+            foundGame = gameCatalog.findById(id);
+        } catch (NoSuchElementException error) {
+            foundGame = null;
+            notFoundError = error;
+        }
         return foundGame;
     }
 
