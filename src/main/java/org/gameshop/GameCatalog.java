@@ -3,6 +3,7 @@ package org.gameshop;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 public class GameCatalog {
     private final List<Game> games = List.of(
@@ -50,20 +51,36 @@ public class GameCatalog {
             throw new IllegalArgumentException("Category cannot be null or empty");
         }
 
-        return games.stream()
+        List<Game> foundGames = games.stream()
                 .filter(game -> game.categories().contains(category))
                 .toList();
+
+        if (foundGames.isEmpty()) {
+            throw new NoSuchElementException("Games with category " + category + " do not exist");
+        }
+
+        return foundGames;
     }
 
     //Function to find game items that contain all selected categories
     public List<Game> findByCategories(List<Game.Category> categories) {
         if (categories == null || categories.isEmpty()) {
-            throw new IllegalArgumentException("Lost of Categories cannot be null or empty");
+            throw new IllegalArgumentException("List of Categories cannot be null or empty");
         }
 
-        return games.stream()
+        if (categories.stream().anyMatch(Objects::isNull)) {
+            throw new IllegalArgumentException("Categories cannot contain null values");
+        }
+
+        List<Game> foundGames = games.stream()
                 .filter(game -> game.categories().containsAll(categories))
                 .toList();
+
+        if (foundGames.isEmpty()) {
+            throw new NoSuchElementException("Games with categories " + categories + " do not exist");
+        }
+
+        return foundGames;
     }
 
     //Function to find game item by its name
