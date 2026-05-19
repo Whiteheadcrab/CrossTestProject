@@ -58,16 +58,33 @@ public class GameCatalogSteps {
     }
 
     @When("I search games by game's category {string}")
-    public List<Game> searchGameByGameCategory(String gameCategory) {
-        foundGames = gameCatalog.findByCategory(Game.Category.valueOf(gameCategory));
+    public List<Game> searchGamesByGameCategory(String gameCategory) {
+        notFoundError = null;
+        try {
+            foundGames = gameCatalog.findByCategory(GameCategoryConverter.fromText(gameCategory));
+        } catch (NoSuchElementException error) {
+            foundGames = List.of();
+            notFoundError = error;
+        } catch (IllegalArgumentException error) {
+            foundGames = List.of();
+            notFoundError = new NoSuchElementException(error.getMessage());
+        }
         return foundGames;
     }
 
     @When("I search games by game's categories {string}")
-    public List<Game> searchGameByGameCategories(String gameCategories) {
-        List<Game.Category> categories = GameCategoryConverter.fromCommaSeparatedText(gameCategories);
-
-        foundGames = gameCatalog.findByCategories(categories);
+    public List<Game> searchGamesByGameCategories(String gameCategories) {
+        notFoundError = null;
+        try {
+            List<Game.Category> categories = GameCategoryConverter.fromCommaSeparatedText(gameCategories);
+            foundGames = gameCatalog.findByCategories(categories);
+        } catch (NoSuchElementException error) {
+            foundGames = List.of();
+            notFoundError = error;
+        } catch (IllegalArgumentException error) {
+            foundGames = List.of();
+            notFoundError = new NoSuchElementException(error.getMessage());
+        }
         return foundGames;
     }
 
@@ -89,6 +106,37 @@ public class GameCatalogSteps {
             {
                     assertNotEquals(expectedGameName, foundGame.name(),
                             "Game should not be " + expectedGameName);
+            }
+            break;
+        }
+    }
+
+    @Then("^I will verify that found games  (are|are not) - \"([^\"]*)\"$")
+    public void verifyFoundGames(String equalityMode, String expectedGameNames) {
+        if (notFoundError != null) {
+            throw new AssertionError(notFoundError.getMessage());
+        }
+
+        List<String> actualGameNames = foundGames.stream()
+                .map(Game::name)
+                .sorted()
+                .toList();
+        List<String> expectedGameNameList = Arrays.stream(expectedGameNames.split(","))
+                .map(String::trim)
+                .sorted()
+                .toList();
+
+        switch (equalityMode) {
+            case "are":
+            {
+                assertEquals(expectedGameNameList, actualGameNames,
+                        "Expected found games to be " + expectedGameNameList + ", but found " + actualGameNames);
+            }
+            break;
+            case "are not":
+            {
+                assertNotEquals(expectedGameNameList, actualGameNames,
+                        "Found games should not be " + expectedGameNameList);
             }
             break;
         }
