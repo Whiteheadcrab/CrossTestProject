@@ -1,5 +1,7 @@
+@cucumber @gameCatalog
 Feature: Game catalog
 
+  @positive @searchByName
   Scenario Outline: Search game by name - found game is equal to expected game via name
     When I search game by name "<gameName>"
     Then I will verify that found game name is - "<expectedGameName>"
@@ -10,6 +12,7 @@ Feature: Game catalog
       | Sky Jump Legends                 | Sky Jump Legends                 |
       | Grand Prix Manager               | Grand Prix Manager               |
 
+  @negative @searchByName
   Scenario Outline: Search game by name - found game is not equal to expected game via name
     When I search game by name "<gameName>"
     Then I will verify that found game name is not - "<unexpectedGameName>"
@@ -20,6 +23,7 @@ Feature: Game catalog
       | The Witcher 3                    | Castle Defense Heroes     |
       | Evil Hospital: Run from them     | Dungeon Cards Online      |
 
+  @negative @searchByName
   Scenario Outline: Search game by name - game not found
     When I search game by name "<gameName>"
     Then I will verify that no game was found
@@ -30,6 +34,7 @@ Feature: Game catalog
       | City Traffic Builder |
       | Underwater Quest     |
 
+  @positive @searchById
   Scenario Outline: Search game by id - found game is equal to expected game via name
     When I search game by id <gameId>
     Then I will verify that found game name is - "<expectedGameName>"
@@ -40,6 +45,7 @@ Feature: Game catalog
       | 14     | Wild Frontier Survival |
       | 18     | Retro Arcade Pack      |
 
+  @negative @searchById
   Scenario Outline: Search game by id - found game is not equal to expected game via name
     When I search game by id <gameId>
     Then I will verify that found game name is not - "<unexpectedGameName>"
@@ -50,6 +56,7 @@ Feature: Game catalog
       | 3      | Sky Jump Legends            |
       | 20     | Evil Hospital: Run from them |
 
+  @negative @searchById
   Scenario Outline: Search game by id - game not found
     When I search game by id <gameId>
     Then I will verify that no game was found
@@ -60,6 +67,7 @@ Feature: Game catalog
       | 21     |
       | 100    |
 
+  @positive @searchByCategory
   Scenario Outline: Search games by category - found list of games is equal to expected list of games
     When I search games by game's category "<category>"
     Then I will verify that found games  are - "<games>"
@@ -70,6 +78,7 @@ Feature: Game catalog
       | PUZZLE   | Dragon Cafe Manager, Moon Colony Architect, Ocean Puzzle Quest, Haunted Castle Mystery, Retro Arcade Pack |
       | MMO      | Dungeon Cards Online, Battle Arena Prime, Galaxy Traders MMO                                              |
 
+  @positive @searchByCategories
   Scenario Outline: Search games by categories - found list of games is equal to expected list of games
     When I search games by game's categories "<categories>"
     Then I will verify that found games  are - "<games>"
@@ -80,6 +89,7 @@ Feature: Game catalog
       | RACING,SPORTS    | Pixel Racing League, Grand Prix Manager |
       | ACTION,RPG       | The Witcher 3, Castle Defense Heroes, Wild Frontier Survival, Ultimate Game Mix |
 
+  @negative @searchByCategory
   Scenario Outline: Search games by category - no games found
     When I search games by game's category "<category>"
     Then I will verify that no game was found
@@ -90,6 +100,7 @@ Feature: Game catalog
       | COZY     |
       | STEALTH  |
 
+  @negative @searchByCategory
   Scenario Outline: Search games by category - found list of games is not equal to expected list of games
     When I search games by game's category "<category>"
     Then I will verify that found games  are not - "<unexpectedGames>"
@@ -100,6 +111,7 @@ Feature: Game catalog
       | SPORTS   | Sky Jump Legends, Dungeon Cards Online   |
       | RACING   | Tactical Sports League, Grand Prix Manager |
 
+  @negative @searchByCategories
   Scenario Outline: Search games by categories - no games found
     When I search games by game's categories "<categories>"
     Then I will verify that no game was found
@@ -110,6 +122,7 @@ Feature: Game catalog
       | HORROR,SPORTS  |
       | MMO,RACING     |
 
+  @negative @searchByCategories
   Scenario Outline: Search games by categories - found list of games is not equal to expected list of games
     When I search games by game's categories "<categories>"
     Then I will verify that found games  are not - "<unexpectedGames>"
