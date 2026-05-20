@@ -1,28 +1,64 @@
 Feature: Game catalog
 
-  Scenario: Search game by name - found game is equal to expected game via name
-    When I search game by name "Evil Hospital: Run from them"
-    Then I will verify that found game name is - "Evil Hospital: Run from them"
+  Scenario Outline: Search game by name - found game is equal to expected game via name
+    When I search game by name "<gameName>"
+    Then I will verify that found game name is - "<expectedGameName>"
 
-  Scenario: Search game by name - found game is not equal to expected game via name
-    When I search game by name "Sky Jump Legends"
-    Then I will verify that found game name is not - "Tactical Sports League"
+    Examples:
+      | gameName                         | expectedGameName                 |
+      | Evil Hospital: Run from them     | Evil Hospital: Run from them     |
+      | Sky Jump Legends                 | Sky Jump Legends                 |
+      | Grand Prix Manager               | Grand Prix Manager               |
 
-  Scenario: Search game by name - game not found
-    When I search game by name "Minecraft"
+  Scenario Outline: Search game by name - found game is not equal to expected game via name
+    When I search game by name "<gameName>"
+    Then I will verify that found game name is not - "<unexpectedGameName>"
+
+    Examples:
+      | gameName                         | unexpectedGameName        |
+      | Sky Jump Legends                 | Tactical Sports League    |
+      | The Witcher 3                    | Castle Defense Heroes     |
+      | Evil Hospital: Run from them     | Dungeon Cards Online      |
+
+  Scenario Outline: Search game by name - game not found
+    When I search game by name "<gameName>"
     Then I will verify that no game was found
 
-  Scenario: Search game by id - found game is equal to expected game via name
-    When I search game by id 7
-    Then I will verify that found game name is - "Castle Defense Heroes"
+    Examples:
+      | gameName             |
+      | Minecraft            |
+      | City Traffic Builder |
+      | Underwater Quest     |
 
-  Scenario: Search game by id - found game is not equal to expected game via name
-    When I search game by id 14
-    Then I will verify that found game name is not - "Dungeon Cards Online"
+  Scenario Outline: Search game by id - found game is equal to expected game via name
+    When I search game by id <gameId>
+    Then I will verify that found game name is - "<expectedGameName>"
 
-  Scenario: Search game by id - game not found
-    When I search game by id 99
+    Examples:
+      | gameId | expectedGameName       |
+      | 7      | Castle Defense Heroes  |
+      | 14     | Wild Frontier Survival |
+      | 18     | Retro Arcade Pack      |
+
+  Scenario Outline: Search game by id - found game is not equal to expected game via name
+    When I search game by id <gameId>
+    Then I will verify that found game name is not - "<unexpectedGameName>"
+
+    Examples:
+      | gameId | unexpectedGameName          |
+      | 14     | Dungeon Cards Online        |
+      | 3      | Sky Jump Legends            |
+      | 20     | Evil Hospital: Run from them |
+
+  Scenario Outline: Search game by id - game not found
+    When I search game by id <gameId>
     Then I will verify that no game was found
+
+    Examples:
+      | gameId |
+      | 99     |
+      | 21     |
+      | 100    |
 
   Scenario Outline: Search games by category - found list of games is equal to expected list of games
     When I search games by game's category "<category>"
@@ -32,6 +68,7 @@ Feature: Game catalog
       | category | games                                                                                                      |
       | HORROR   | Evil Hospital: Run from them, Haunted Castle Mystery                                                       |
       | PUZZLE   | Dragon Cafe Manager, Moon Colony Architect, Ocean Puzzle Quest, Haunted Castle Mystery, Retro Arcade Pack |
+      | MMO      | Dungeon Cards Online, Battle Arena Prime, Galaxy Traders MMO                                              |
 
   Scenario Outline: Search games by categories - found list of games is equal to expected list of games
     When I search games by game's categories "<categories>"
@@ -41,19 +78,44 @@ Feature: Game catalog
       | categories       | games                                   |
       | HORROR,ADVENTURE | Haunted Castle Mystery                  |
       | RACING,SPORTS    | Pixel Racing League, Grand Prix Manager |
+      | ACTION,RPG       | The Witcher 3, Castle Defense Heroes, Wild Frontier Survival, Ultimate Game Mix |
 
-  Scenario: Search games by category - no games found
-    When I search games by game's category "MOBA"
+  Scenario Outline: Search games by category - no games found
+    When I search games by game's category "<category>"
     Then I will verify that no game was found
 
-  Scenario: Search games by category - found list of games is not equal to expected list of games
-    When I search games by game's category "HORROR"
-    Then I will verify that found games  are not - "Ocean Puzzle Quest, Retro Arcade Pack"
+    Examples:
+      | category |
+      | MOBA     |
+      | COZY     |
+      | STEALTH  |
 
-  Scenario: Search games by categories - no games found
-    When I search games by game's categories "ACTION,PUZZLE"
+  Scenario Outline: Search games by category - found list of games is not equal to expected list of games
+    When I search games by game's category "<category>"
+    Then I will verify that found games  are not - "<unexpectedGames>"
+
+    Examples:
+      | category | unexpectedGames                          |
+      | HORROR   | Ocean Puzzle Quest, Retro Arcade Pack    |
+      | SPORTS   | Sky Jump Legends, Dungeon Cards Online   |
+      | RACING   | Tactical Sports League, Grand Prix Manager |
+
+  Scenario Outline: Search games by categories - no games found
+    When I search games by game's categories "<categories>"
     Then I will verify that no game was found
 
-  Scenario: Search games by categories - found list of games is not equal to expected list of games
-    When I search games by game's categories "RACING,SPORTS"
-    Then I will verify that found games  are not - "Tactical Sports League, Grand Prix Manager"
+    Examples:
+      | categories     |
+      | ACTION,PUZZLE  |
+      | HORROR,SPORTS  |
+      | MMO,RACING     |
+
+  Scenario Outline: Search games by categories - found list of games is not equal to expected list of games
+    When I search games by game's categories "<categories>"
+    Then I will verify that found games  are not - "<unexpectedGames>"
+
+    Examples:
+      | categories    | unexpectedGames                                    |
+      | RACING,SPORTS | Tactical Sports League, Grand Prix Manager         |
+      | HORROR,PUZZLE | Evil Hospital: Run from them, Haunted Castle Mystery |
+      | ACTION,RPG    | The Witcher 3, Castle Defense Heroes               |
