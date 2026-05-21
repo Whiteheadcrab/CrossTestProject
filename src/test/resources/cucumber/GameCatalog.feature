@@ -7,10 +7,10 @@ Feature: Game catalog
     Then I will verify that found game name is - "<expectedGameName>"
 
     Examples:
-      | gameName                         | expectedGameName                 |
-      | Evil Hospital: Run from them     | Evil Hospital: Run from them     |
-      | Sky Jump Legends                 | Sky Jump Legends                 |
-      | Grand Prix Manager               | Grand Prix Manager               |
+      | gameName                     | expectedGameName             |
+      | Evil Hospital: Run from them | Evil Hospital: Run from them |
+      | Sky Jump Legends             | Sky Jump Legends             |
+      | Grand Prix Manager           | Grand Prix Manager           |
 
   @id(GameCatalog_searchByName_2) @searchByName
   Scenario Outline: Search game by name - found game is not equal to expected game via name
@@ -18,10 +18,10 @@ Feature: Game catalog
     Then I will verify that found game name is not - "<unexpectedGameName>"
 
     Examples:
-      | gameName                         | unexpectedGameName        |
-      | Sky Jump Legends                 | Tactical Sports League    |
-      | The Witcher 3                    | Castle Defense Heroes     |
-      | Evil Hospital: Run from them     | Dungeon Cards Online      |
+      | gameName                     | unexpectedGameName     |
+      | Sky Jump Legends             | Tactical Sports League |
+      | The Witcher 3                | Castle Defense Heroes  |
+      | Evil Hospital: Run from them | Dungeon Cards Online   |
 
   @id(GameCatalog_searchByName_3) @searchByName
   Scenario Outline: Search game by name - game not found
@@ -51,9 +51,9 @@ Feature: Game catalog
     Then I will verify that found game name is not - "<unexpectedGameName>"
 
     Examples:
-      | gameId | unexpectedGameName          |
-      | 14     | Dungeon Cards Online        |
-      | 3      | Sky Jump Legends            |
+      | gameId | unexpectedGameName           |
+      | 14     | Dungeon Cards Online         |
+      | 3      | Sky Jump Legends             |
       | 20     | Evil Hospital: Run from them |
 
   @id(GameCatalog_searchById_3) @searchById
@@ -73,21 +73,10 @@ Feature: Game catalog
     Then I will verify that found games  are - "<games>"
 
     Examples:
-      | category | games                                                                                                      |
-      | HORROR   | Evil Hospital: Run from them, Haunted Castle Mystery                                                       |
+      | category | games                                                                                                     |
+      | HORROR   | Evil Hospital: Run from them, Haunted Castle Mystery                                                      |
       | PUZZLE   | Dragon Cafe Manager, Moon Colony Architect, Ocean Puzzle Quest, Haunted Castle Mystery, Retro Arcade Pack |
       | MMO      | Dungeon Cards Online, Battle Arena Prime, Galaxy Traders MMO                                              |
-
-  @id(GameCatalog_searchByCategories_1) @searchByCategories
-  Scenario Outline: Search games by categories - found list of games is equal to expected list of games
-    When I search games by game's categories "<categories>"
-    Then I will verify that found games  are - "<games>"
-
-    Examples:
-      | categories       | games                                   |
-      | HORROR,ADVENTURE | Haunted Castle Mystery                  |
-      | RACING,SPORTS    | Pixel Racing League, Grand Prix Manager |
-      | ACTION,RPG       | The Witcher 3, Castle Defense Heroes, Wild Frontier Survival, Ultimate Game Mix |
 
   @id(GameCatalog_searchByCategory_2) @searchByCategory
   Scenario Outline: Search games by category - no games found
@@ -106,10 +95,21 @@ Feature: Game catalog
     Then I will verify that found games  are not - "<unexpectedGames>"
 
     Examples:
-      | category | unexpectedGames                          |
-      | HORROR   | Ocean Puzzle Quest, Retro Arcade Pack    |
-      | SPORTS   | Sky Jump Legends, Dungeon Cards Online   |
+      | category | unexpectedGames                            |
+      | HORROR   | Ocean Puzzle Quest, Retro Arcade Pack      |
+      | SPORTS   | Sky Jump Legends, Dungeon Cards Online     |
       | RACING   | Tactical Sports League, Grand Prix Manager |
+
+  @id(GameCatalog_searchByCategories_1) @searchByCategories
+  Scenario Outline: Search games by categories - found list of games is equal to expected list of games
+    When I search games by game's categories "<categories>"
+    Then I will verify that found games  are - "<games>"
+
+    Examples:
+      | categories       | games                                                                           |
+      | HORROR,ADVENTURE | Haunted Castle Mystery                                                          |
+      | RACING,SPORTS    | Pixel Racing League, Grand Prix Manager                                         |
+      | ACTION,RPG       | The Witcher 3, Castle Defense Heroes, Wild Frontier Survival, Ultimate Game Mix |
 
   @id(GameCatalog_searchByCategories_2) @searchByCategories
   Scenario Outline: Search games by categories - no games found
@@ -128,7 +128,7 @@ Feature: Game catalog
     Then I will verify that found games  are not - "<unexpectedGames>"
 
     Examples:
-      | categories    | unexpectedGames                                    |
-      | RACING,SPORTS | Tactical Sports League, Grand Prix Manager         |
+      | categories    | unexpectedGames                                      |
+      | RACING,SPORTS | Tactical Sports League, Grand Prix Manager           |
       | HORROR,PUZZLE | Evil Hospital: Run from them, Haunted Castle Mystery |
-      | ACTION,RPG    | The Witcher 3, Castle Defense Heroes               |
+      | ACTION,RPG    | The Witcher 3, Castle Defense Heroes                 |
