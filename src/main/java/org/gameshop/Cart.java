@@ -80,8 +80,8 @@ public class Cart {
     }
 
     //Pay for games in cart - will be implemented in future
-    public void payForCart()
-    {
-        throw new UnsupportedOperationException("Payment for cart will be implemented in future");
-    }
+//    public void payForCart()
+//    {
+//        throw new UnsupportedOperationException("Payment for cart will be implemented in future");
+//    }
 }
