@@ -1,18 +1,17 @@
 package cucumber;
 
-import io.cucumber.datatable.DataTable;
-import io.cucumber.java.PendingException;
-import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
 import org.gameshop.Game;
 import org.gameshop.Converters.GameCategoryConverter;
 import org.gameshop.GameCatalog;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class GameCatalogSteps {
 
@@ -24,14 +23,6 @@ public class GameCatalogSteps {
     private Game foundGame;
     //Parameter for indicating absence of game via game name search
     private NoSuchElementException notFoundError;
-    //Create Map for inserted parameters
-    private Map<String, String> parameters;
-
-    //Created for setting up parameters used for testing
-    @Given("Set parameter")
-    public void setParameter(DataTable dataTable) {
-        parameters = dataTable.asMaps().get(0);
-    }
 
     @When("I search game by id {int}")
     public Game searchGameById(int id) {
