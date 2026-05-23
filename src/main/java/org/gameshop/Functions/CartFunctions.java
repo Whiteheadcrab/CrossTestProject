@@ -1,4 +1,6 @@
-package org.gameshop;
+package org.gameshop.Functions;
+
+import org.gameshop.Game;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -6,7 +8,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-public class Cart {
+public class CartFunctions {
     //Initialize list for games
     private final List<Game> listGames = new ArrayList<>();
 

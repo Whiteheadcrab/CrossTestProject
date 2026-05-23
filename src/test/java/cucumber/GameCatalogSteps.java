@@ -4,7 +4,7 @@ import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
 import org.gameshop.Game;
 import org.gameshop.Converters.GameCategoryConverter;
-import org.gameshop.GameCatalog;
+import org.gameshop.Functions.GameCatalogFunctions;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,7 +18,7 @@ public class GameCatalogSteps {
     //Lit for found games
     private List<Game> foundGames = new ArrayList<>();
     //Created object for Game catalog
-    private final GameCatalog gameCatalog = new GameCatalog();
+    private final GameCatalogFunctions gameCatalog = new GameCatalogFunctions();
     //Created object for game
     private Game foundGame;
     //Parameter for indicating absence of game via game name search

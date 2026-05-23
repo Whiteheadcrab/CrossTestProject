@@ -1,13 +1,13 @@
 package org;
 
 import org.gameshop.Game;
-import org.gameshop.GameCatalog;
+import org.gameshop.Functions.GameCatalogFunctions;
 
 
 public class Main {
     public static void main(String[] args) {
         //Create variable for game list
-        GameCatalog gameCatalog = new GameCatalog();
+        GameCatalogFunctions gameCatalog = new GameCatalogFunctions();
 
         //Actions per each item in game list
         for (Game game : gameCatalog.getAllGames()) {
