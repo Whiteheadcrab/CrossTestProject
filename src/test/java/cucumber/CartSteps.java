@@ -1,9 +1,12 @@
 package cucumber;
 
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import org.gameshop.Game;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class CartSteps {
 
@@ -11,10 +14,19 @@ public class CartSteps {
 
     public void removeGameFromCart(Game game) {}
 
-    public String checkPresenceOfGameInCart(Game game) {
-        String checkResult = null;
+    @Then("I will verify that {game} is present in cart")
+    public void checkPresenceOfGameInCart(List<Game> cart, Game game) {
+        //Check that cart is existing
+        if (cart == null || cart.isEmpty()) {
+            throw new NoSuchElementException("Cart is empty or does not exist");
+        }
 
-        return checkResult;
+        //Check that game is in cart
+        boolean gameIsPresent = game != null && cart.stream()
+                .anyMatch(cartGame -> cartGame.id() == game.id());
+        if (!gameIsPresent) {
+            throw new NoSuchElementException("Game is not in current cart");
+        }
     }
 
     public List<Game> getGameListInCart(Game game) {
