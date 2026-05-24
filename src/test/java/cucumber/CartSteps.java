@@ -55,7 +55,13 @@ public class CartSteps {
         cart.add(game);
     }
 
-    public void removeGameFromCart(Game game) {}
+    @When("Remove game from current cart by name - {string}")
+    public void removeGameFromCart(List<Game> cart, String gameName) {
+        checkPresenceOfGameInCart(cart, gameName);
+
+        Game game = gameCatalog.findByName(gameName);
+        cart.removeIf(cartGame -> cartGame.id() == game.id());
+    }
 
     @Then("I will verify that {string} is present in cart")
     public void checkPresenceOfGameInCart(List<Game> cart, String gameName) {
@@ -71,7 +77,7 @@ public class CartSteps {
         boolean gameIsPresent = cart.stream()
                 .anyMatch(cartGame -> cartGame.id() == game.id());
         if (!gameIsPresent) {
-            throw new NoSuchElementException("Game is not in current cart");
+            throw new NoSuchElementException("Game is not present in cart");
         }
     }
 
