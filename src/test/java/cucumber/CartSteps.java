@@ -3,6 +3,7 @@ package cucumber;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.gameshop.Game;
+import org.gameshop.Functions.GameCatalogFunctions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,19 +11,64 @@ import java.util.NoSuchElementException;
 
 public class CartSteps {
 
-    public void addGameToCart(Game game) {}
+    private final GameCatalogFunctions gameCatalog = new GameCatalogFunctions();
+
+    @When("Add game to current cart by name - {string}")
+    public void addGameToCartViaName(String gameName, List<Game> cart) {
+        Game game = gameCatalog.findByName(gameName);
+
+        // Check that cart is exist
+        if (cart == null) {
+            cart = new ArrayList<>();
+        }
+
+        // Check that game is not present in cart
+        boolean gameAlreadyExists = !cart.isEmpty() && cart.stream()
+                .anyMatch(cartGame -> cartGame.id() == game.id());
+        if (gameAlreadyExists) {
+            throw new IllegalArgumentException("Game with name '" + gameName + "'"
+                    + " already exists in cart. Duplication is not allowed");
+        }
+
+        //Add game to cart
+        cart.add(game);
+    }
+
+    @When("Add game to current cart by id - {int}")
+    public void addGameToCartViaId(int gameId, List<Game> cart) {
+        Game game = gameCatalog.findById(gameId);
+
+        // Check that cart is exist
+        if (cart == null) {
+            cart = new ArrayList<>();
+        }
+
+        // Check that game is not present in cart
+        boolean gameAlreadyExists = !cart.isEmpty() && cart.stream()
+                .anyMatch(cartGame -> cartGame.id() == game.id());
+        if (gameAlreadyExists) {
+            throw new IllegalArgumentException("Game with id " + gameId
+                    + " already exists in cart. Duplication is not allowed");
+        }
+
+        //Add game to cart
+        cart.add(game);
+    }
 
     public void removeGameFromCart(Game game) {}
 
-    @Then("I will verify that {game} is present in cart")
-    public void checkPresenceOfGameInCart(List<Game> cart, Game game) {
+    @Then("I will verify that {string} is present in cart")
+    public void checkPresenceOfGameInCart(List<Game> cart, String gameName) {
         //Check that cart is existing
         if (cart == null || cart.isEmpty()) {
             throw new NoSuchElementException("Cart is empty or does not exist");
         }
 
+        //Find game by Name
+        Game game = gameCatalog.findByName(gameName);
+
         //Check that game is in cart
-        boolean gameIsPresent = game != null && cart.stream()
+        boolean gameIsPresent = cart.stream()
                 .anyMatch(cartGame -> cartGame.id() == game.id());
         if (!gameIsPresent) {
             throw new NoSuchElementException("Game is not in current cart");
