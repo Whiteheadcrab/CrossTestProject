@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class CartSteps {
 
@@ -62,32 +62,37 @@ public class CartSteps {
 
     @When("Remove game from current cart by name - {string}")
     public void removeGameFromCart(List<Game> cart, String gameName) {
-        checkPresenceOfGameInCart(cart, gameName);
+        checkPresenceOfGameInCart(cart, gameName, "is");
 
         Game game = gameCatalog.findByName(gameName);
         cart.removeIf(cartGame -> cartGame.id() == game.id());
     }
 
-    @Then("I will verify that {string} is present in cart")
-    public void checkPresenceOfGameInCart(List<Game> cart, String gameName) {
-        //Check that cart is existing
-        if (cart == null || cart.isEmpty()) {
-            throw new NoSuchElementException("Cart is empty or does not exist");
-        }
-
+    @Then("^I will verify that \"([^\"]*)\" (is|is not) present in cart$")
+    public void checkPresenceOfGameInCart(List<Game> cart, String gameName, String equalityMode) {
         //Find game by Name
         Game game = gameCatalog.findByName(gameName);
 
         //Check that game is in cart
-        boolean gameIsPresent = cart.stream()
+        boolean gameIsPresent = cart != null && !cart.isEmpty() && cart.stream()
                 .anyMatch(cartGame -> cartGame.id() == game.id());
-        if (!gameIsPresent) {
-            throw new NoSuchElementException("Game is not present in cart");
+
+        switch (equalityMode) {
+            case "is":
+            {
+                assertTrue(gameIsPresent, "Game is not present in cart");
+            }
+            break;
+            case "is not":
+            {
+                assertFalse(gameIsPresent, "Game should not be present in cart");
+            }
+            break;
         }
     }
 
-    @Then("I will verify that games in cart are : {string}")
-    public void checktGameListInCart(List<Game> cart, String expectedGameNames) {
+    @Then("^I will verify that games in cart (is|is not) : \"([^\"]*)\"$")
+    public void checktGameListInCart(List<Game> cart, String equalityMode, String expectedGameNames) {
         //Variable for creating list based on expectedGameNames
         List<String> actualGameNames = new ArrayList<>();
 
@@ -107,13 +112,25 @@ public class CartSteps {
                         .sorted()
                         .toList();
 
-        //Asser equality between expected and actual list of game's name in cart
-        assertEquals(expectedGameNameList, actualGameNames,
-                "Expected games in cart to be " + expectedGameNameList + ", but found " + actualGameNames);
+        //Assert equality between expected and actual list of game's name in cart
+        switch (equalityMode) {
+            case "is":
+            {
+                assertEquals(expectedGameNameList, actualGameNames,
+                        "Expected games in cart to be " + expectedGameNameList + ", but found " + actualGameNames);
+            }
+            break;
+            case "is not":
+            {
+                assertNotEquals(expectedGameNameList, actualGameNames,
+                        "Games in cart should not be " + expectedGameNameList);
+            }
+            break;
+        }
     }
 
-    @Then("I will verify that cart total price is - {bigdecimal}")
-    public void checkPriceOfGamesInCart(List<Game> cart, BigDecimal expectedPrice) {
+    @Then("^I will verify that cart total price (is|is not) - ([0-9]+(?:\\.[0-9]+)?)$")
+    public void checkPriceOfGamesInCart(List<Game> cart, String equalityMode, BigDecimal expectedPrice) {
         //Create variable for actual price
         BigDecimal actualPrice = BigDecimal.ZERO;
 
@@ -129,8 +146,20 @@ public class CartSteps {
         }
 
         //Assert equality between expected and actual total price of games in cart
-        assertEquals(expectedPrice, actualPrice,
-                "Expected cart total price to be " + expectedPrice + ", but found " + actualPrice);
+        switch (equalityMode) {
+            case "is":
+            {
+                assertEquals(expectedPrice, actualPrice,
+                        "Expected cart total price to be " + expectedPrice + ", but found " + actualPrice);
+            }
+            break;
+            case "is not":
+            {
+                assertNotEquals(expectedPrice, actualPrice,
+                        "Cart total price should not be " + expectedPrice);
+            }
+            break;
+        }
     }
 
 
