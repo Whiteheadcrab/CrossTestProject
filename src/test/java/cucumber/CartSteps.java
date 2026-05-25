@@ -6,8 +6,11 @@ import org.gameshop.Game;
 import org.gameshop.Functions.GameCatalogFunctions;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CartSteps {
 
@@ -81,9 +84,30 @@ public class CartSteps {
         }
     }
 
-    public List<Game> getGameListInCart(Game game) {
-        List<Game> gameList = new ArrayList<>();
-        return gameList;
+    @Then("I will verify that games in cart are : {string}")
+    public void checktGameListInCart(List<Game> cart, String expectedGameNames) {
+        //Variable for creating list based on expectedGameNames
+        List<String> actualGameNames = new ArrayList<>();
+
+        //If cart is not empty - transfer name of games from List<Game> into List<String>
+        if (cart != null && !cart.isEmpty()) {
+            actualGameNames = cart.stream()
+                    .map(Game::name)
+                    .sorted()
+                    .toList();
+        }
+
+        //Create variable List<String> and put in it fame from expectedGameNames
+        List<String> expectedGameNameList = expectedGameNames.isBlank()
+                ? new ArrayList<>()
+                : Arrays.stream(expectedGameNames.split(","))
+                        .map(String::trim)
+                        .sorted()
+                        .toList();
+
+        //Asser equality between expected and actual list of game's name in cart
+        assertEquals(expectedGameNameList, actualGameNames,
+                "Expected games in cart to be " + expectedGameNameList + ", but found " + actualGameNames);
     }
 
     public String checkPriceOfGamesInCart(Game game) {
