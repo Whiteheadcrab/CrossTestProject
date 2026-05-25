@@ -68,6 +68,13 @@ public class CartSteps {
         cart.removeIf(cartGame -> cartGame.id() == game.id());
     }
 
+    @When("Empty current cart")
+    public void emptyCart(List<Game> cart) {
+        if (cart != null) {
+            cart.clear();
+        }
+    }
+
     @Then("^I will verify that \"([^\"]*)\" (is|is not) present in cart$")
     public void checkPresenceOfGameInCart(List<Game> cart, String gameName, String equalityMode) {
         //Find game by Name
@@ -162,8 +169,6 @@ public class CartSteps {
         }
     }
 
-
-    public void emptyCart(Game game) {}
 
     public void buyGamesInCart(Game game) {
         //For now, it will do the same as emptyCart , but will be different message
