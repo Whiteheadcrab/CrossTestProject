@@ -170,8 +170,10 @@ public class CartSteps {
     }
 
 
-    public void buyGamesInCart(Game game) {
-        //For now, it will do the same as emptyCart , but will be different message
+    @When("Buy games in current cart")
+    public void buyGamesInCart(List<Game> cart) {
+        emptyCart(cart);
+        //For now, it will do the same as emptyCart
         // Later with developing payment and account system will need to change it
     }
 
