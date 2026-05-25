@@ -3,8 +3,10 @@ package cucumber;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.gameshop.Game;
+import org.gameshop.Functions.CartFunctions;
 import org.gameshop.Functions.GameCatalogFunctions;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -110,9 +112,25 @@ public class CartSteps {
                 "Expected games in cart to be " + expectedGameNameList + ", but found " + actualGameNames);
     }
 
-    public String checkPriceOfGamesInCart(Game game) {
-        String checkResult = null;
-        return checkResult;
+    @Then("I will verify that cart total price is - {bigdecimal}")
+    public void checkPriceOfGamesInCart(List<Game> cart, BigDecimal expectedPrice) {
+        //Create variable for actual price
+        BigDecimal actualPrice = BigDecimal.ZERO;
+
+        //If cart is not empty - add games into car and use get total price for games in cart
+        if (cart != null && !cart.isEmpty()) {
+            CartFunctions cartFunctions = new CartFunctions();
+
+            for (Game game : cart)
+            {
+                cartFunctions.addGame(game);
+            }
+            actualPrice = cartFunctions.getTotalPrice();
+        }
+
+        //Assert equality between expected and actual total price of games in cart
+        assertEquals(expectedPrice, actualPrice,
+                "Expected cart total price to be " + expectedPrice + ", but found " + actualPrice);
     }
 
 
