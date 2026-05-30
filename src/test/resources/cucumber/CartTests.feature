@@ -7,6 +7,12 @@ Feature: Cart test
     Then I will verify that games in cart is : ""
 
   @id(Cart_addGameToCart_1) @addGameToCart
-  Scenario: Add game to cart
-    When Add game to current cart by name - "The Witcher 3"
-    Then I will verify that "The Witcher 3" is present in cart
+  Scenario Outline: Add game to cart
+    When Add game to current cart by name - "<gameName>"
+    Then I will verify that games in cart is : "<expectedGames>"
+
+    Examples:
+      | gameName                                       | expectedGames                                  |
+      | The Witcher 3                                  | The Witcher 3                                  |
+      | Sky Jump Legends                               | Sky Jump Legends                               |
+      | The Witcher 3, Sky Jump Legends, Space Farmers | The Witcher 3, Sky Jump Legends, Space Farmers |
