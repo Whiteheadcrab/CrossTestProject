@@ -1,5 +1,5 @@
 @Cucumber @GameCatalog
-Feature: Game catalog
+Feature: Game catalog tests
 
   @id(GameCatalog_searchByName_1) @searchByName
   Scenario Outline: Search game by name - found game is equal to expected game via name
