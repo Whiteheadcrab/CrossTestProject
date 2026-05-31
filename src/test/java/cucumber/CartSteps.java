@@ -10,16 +10,16 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CartSteps {
 
     private final GameCatalogFunctions gameCatalog = new GameCatalogFunctions();
+    private List<Game> cart = null;
 
     @When("Add game to current cart by name - {string}")
-    public void addGameToCartViaName(String gameName, List<Game> cart) {
+    public void addGameToCartViaName(String gameName) {
         Game game = gameCatalog.findByName(gameName);
 
         // Check that cart is exist
@@ -40,7 +40,7 @@ public class CartSteps {
     }
 
     @When("Add game to current cart by id - {int}")
-    public void addGameToCartViaId(int gameId, List<Game> cart) {
+    public void addGameToCartViaId(int gameId) {
         Game game = gameCatalog.findById(gameId);
 
         // Check that cart is exist
@@ -61,22 +61,26 @@ public class CartSteps {
     }
 
     @When("Remove game from current cart by name - {string}")
-    public void removeGameFromCart(List<Game> cart, String gameName) {
-        checkPresenceOfGameInCart(cart, gameName, "is");
+    public void removeGameFromCart(String gameName) {
+        checkPresenceOfGameInCart(gameName, "is");
 
         Game game = gameCatalog.findByName(gameName);
         cart.removeIf(cartGame -> cartGame.id() == game.id());
     }
 
     @When("Empty current cart")
-    public void emptyCart(List<Game> cart) {
+    public void emptyCart() {
+        if (cart == null) {
+            cart = new ArrayList<>();
+        }
+
         if (cart != null) {
             cart.clear();
         }
     }
 
     @Then("^I will verify that \"([^\"]*)\" (is|is not) present in cart$")
-    public void checkPresenceOfGameInCart(List<Game> cart, String gameName, String equalityMode) {
+    public void checkPresenceOfGameInCart(String gameName, String equalityMode) {
         //Find game by Name
         Game game = gameCatalog.findByName(gameName);
 
@@ -99,7 +103,7 @@ public class CartSteps {
     }
 
     @Then("^I will verify that games in cart (is|is not) : \"([^\"]*)\"$")
-    public void checktGameListInCart(List<Game> cart, String equalityMode, String expectedGameNames) {
+    public void checktGameListInCart(String equalityMode, String expectedGameNames) {
         //Variable for creating list based on expectedGameNames
         List<String> actualGameNames = new ArrayList<>();
 
@@ -137,7 +141,7 @@ public class CartSteps {
     }
 
     @Then("^I will verify that cart total price (is|is not) - ([0-9]+(?:\\.[0-9]+)?)$")
-    public void checkPriceOfGamesInCart(List<Game> cart, String equalityMode, BigDecimal expectedPrice) {
+    public void checkPriceOfGamesInCart(String equalityMode, BigDecimal expectedPrice) {
         //Create variable for actual price
         BigDecimal actualPrice = BigDecimal.ZERO;
 
@@ -171,8 +175,8 @@ public class CartSteps {
 
 
     @When("Buy games in current cart")
-    public void buyGamesInCart(List<Game> cart) {
-        emptyCart(cart);
+    public void buyGamesInCart() {
+        emptyCart();
         //For now, it will do the same as emptyCart
         // Later with developing payment and account system will need to change it
     }
