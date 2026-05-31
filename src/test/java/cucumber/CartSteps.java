@@ -45,25 +45,32 @@ public class CartSteps {
         }
     }
 
-    @When("Add game to current cart by id - {int}")
-    public void addGameToCartViaId(int gameId) {
-        Game game = gameCatalog.findById(gameId);
+    @When("Add game to current cart by id - {string}")
+    public void addGameToCartViaId(String gameIds) {
+        List<Integer> gameIdList = Arrays.stream(gameIds.split(","))
+                .map(String::trim)
+                .map(Integer::parseInt)
+                .toList();
 
-        // Check that cart is exist
-        if (cart == null) {
-            cart = new ArrayList<>();
+        for (int gameId : gameIdList) {
+            Game game = gameCatalog.findById(gameId);
+
+            // Check that cart is exist
+            if (cart == null) {
+                cart = new ArrayList<>();
+            }
+
+            // Check that game is not present in cart
+            boolean gameAlreadyExists = !cart.isEmpty() && cart.stream()
+                    .anyMatch(cartGame -> cartGame.id() == game.id());
+            if (gameAlreadyExists) {
+                throw new IllegalArgumentException("Game with id " + gameId
+                        + " already exists in cart. Duplication is not allowed");
+            }
+
+            //Add game to cart
+            cart.add(game);
         }
-
-        // Check that game is not present in cart
-        boolean gameAlreadyExists = !cart.isEmpty() && cart.stream()
-                .anyMatch(cartGame -> cartGame.id() == game.id());
-        if (gameAlreadyExists) {
-            throw new IllegalArgumentException("Game with id " + gameId
-                    + " already exists in cart. Duplication is not allowed");
-        }
-
-        //Add game to cart
-        cart.add(game);
     }
 
     @When("Remove game from current cart by name - {string}")
