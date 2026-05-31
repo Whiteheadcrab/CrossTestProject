@@ -19,24 +19,30 @@ public class CartSteps {
     private List<Game> cart = null;
 
     @When("Add game to current cart by name - {string}")
-    public void addGameToCartViaName(String gameName) {
-        Game game = gameCatalog.findByName(gameName);
+    public void addGameToCartViaName(String gameNames) {
+        List<String> gameNameList = Arrays.stream(gameNames.split(","))
+                .map(String::trim)
+                .toList();
 
-        // Check that cart is exist
-        if (cart == null) {
-            cart = new ArrayList<>();
+        for (String gameName : gameNameList) {
+            Game game = gameCatalog.findByName(gameName);
+
+            // Check that cart is exist
+            if (cart == null) {
+                cart = new ArrayList<>();
+            }
+
+            // Check that game is not present in cart
+            boolean gameAlreadyExists = !cart.isEmpty() && cart.stream()
+                    .anyMatch(cartGame -> cartGame.id() == game.id());
+            if (gameAlreadyExists) {
+                throw new IllegalArgumentException("Game with name '" + gameName + "'"
+                        + " already exists in cart. Duplication is not allowed");
+            }
+
+            //Add game to cart
+            cart.add(game);
         }
-
-        // Check that game is not present in cart
-        boolean gameAlreadyExists = !cart.isEmpty() && cart.stream()
-                .anyMatch(cartGame -> cartGame.id() == game.id());
-        if (gameAlreadyExists) {
-            throw new IllegalArgumentException("Game with name '" + gameName + "'"
-                    + " already exists in cart. Duplication is not allowed");
-        }
-
-        //Add game to cart
-        cart.add(game);
     }
 
     @When("Add game to current cart by id - {int}")
