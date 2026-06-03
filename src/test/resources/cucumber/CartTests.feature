@@ -6,6 +6,34 @@ Feature: Cart test
     When Empty current cart
     Then I will verify that games in cart is : ""
 
+  @id(Cart_checkCartIsEmpty_2) @checkCartIsEmpty
+  Scenario Outline: Add games to cart, clear cart and check cart is empty
+    When Add game to current cart by name - "<gameName>"
+    Then I will verify that games in cart is : "<expectedGames>"
+    When Empty current cart
+    Then I will verify that games in cart is : ""
+
+    Examples:
+      | gameName                                       | expectedGames                                  |
+      | The Witcher 3                                  | The Witcher 3                                  |
+      | Sky Jump Legends, Space Farmers                | Sky Jump Legends, Space Farmers                |
+      | Ocean Puzzle Quest, Grand Prix Manager, Retro Arcade Pack | Ocean Puzzle Quest, Grand Prix Manager, Retro Arcade Pack |
+
+  @id(Cart_checkCartIsEmpty_3) @checkCartIsEmpty
+  Scenario Outline: Add games to cart, remove game, clear cart and check cart is empty
+    When Add game to current cart by name - "<gameName>"
+    Then I will verify that games in cart is : "<expectedGamesBeforeRemove>"
+    When Remove game from current cart by name - "<removedGame>"
+    Then I will verify that games in cart is : "<expectedGamesAfterRemove>"
+    When Empty current cart
+    Then I will verify that games in cart is : ""
+
+    Examples:
+      | gameName                                                                           | expectedGamesBeforeRemove                                                        | removedGame              | expectedGamesAfterRemove                                      |
+      | The Witcher 3, Sky Jump Legends                                                    | The Witcher 3, Sky Jump Legends                                                  | The Witcher 3            | Sky Jump Legends                                              |
+      | Space Farmers, Ocean Puzzle Quest, Grand Prix Manager                               | Space Farmers, Ocean Puzzle Quest, Grand Prix Manager                            | Ocean Puzzle Quest       | Space Farmers, Grand Prix Manager                            |
+      | Evil Hospital: Run from them, Pixel Racing League, Dragon Cafe Manager, Castle Defense Heroes | Evil Hospital: Run from them, Pixel Racing League, Dragon Cafe Manager, Castle Defense Heroes | Pixel Racing League      | Evil Hospital: Run from them, Dragon Cafe Manager, Castle Defense Heroes |
+
   @id(Cart_addGameToCart_1) @addGameToCart
   Scenario Outline: Add game to cart using Name
     When Add game to current cart by name - "<gameName>"
