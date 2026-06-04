@@ -41,6 +41,32 @@ Feature: Cart test
       | Space Farmers, Ocean Puzzle Quest, Grand Prix Manager                               | Space Farmers, Ocean Puzzle Quest, Grand Prix Manager                            | Ocean Puzzle Quest       | Space Farmers, Grand Prix Manager                            |
       | Evil Hospital: Run from them, Pixel Racing League, Dragon Cafe Manager, Castle Defense Heroes | Evil Hospital: Run from them, Pixel Racing League, Dragon Cafe Manager, Castle Defense Heroes | Pixel Racing League      | Evil Hospital: Run from them, Dragon Cafe Manager, Castle Defense Heroes |
 
+  @id(Cart_checkCartIsEmpty_4) @checkCartIsEmpty
+  Scenario Outline: Add games by id, verify games in cart, clear cart, then verify cart is empty
+    When Add game to current cart by id - "<gameId>"
+    Then I will verify that games in cart is : "<expectedGames>"
+    When Empty current cart
+    Then I will verify that games in cart is : ""
+
+    Examples:
+      | gameId     | expectedGames                                                        |
+      | 3, 8       | Evil Hospital: Run from them, Neon Street Fighter                    |
+      | 5, 17, 20  | Pixel Racing League, Galaxy Traders MMO, Ultimate Game Mix           |
+      | 2, 6, 14   | How to craft everything, Dragon Cafe Manager, Wild Frontier Survival |
+
+  @id(Cart_checkCartIsEmpty_5) @checkCartIsEmpty
+  Scenario Outline: Add games by name, verify specific games are present, remove one game, then verify removed game is not present
+    When Add game to current cart by name - "<gameName>"
+    Then I will verify that "<presentGame>" is present in cart
+    When Remove game from current cart by name - "<removedGame>"
+    Then I will verify that "<removedGame>" is not present in cart
+
+    Examples:
+      | gameName                                                                | presentGame            | removedGame              |
+      | Haunted Castle Mystery, Dungeon Cards Online                             | Dungeon Cards Online   | Haunted Castle Mystery   |
+      | Battle Arena Prime, Tactical Sports League, Retro Arcade Pack            | Tactical Sports League | Retro Arcade Pack        |
+      | Space Farmers, Ocean Puzzle Quest, Grand Prix Manager                    | Grand Prix Manager     | Ocean Puzzle Quest       |
+
   @id(Cart_addGameToCart_1) @addGameToCart
   Scenario Outline: Add game to cart using Name
     When Add game to current cart by name - "<gameName>"
