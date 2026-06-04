@@ -2,8 +2,8 @@
 Feature: Cart test
 
   # Test ideas supported by current cart steps:
-  # 1. Add games by id, verify games in cart, clear cart, then verify cart is empty.
-  # 2. Add games by name, verify specific games are present, remove one game, then verify removed game is not present.
+    # 1. Verify that total price for empty cart is 0 .
+  # 2. Add games by name or id, verify cart total price, then verify cart total price .
   # 3. Add games by name or id, verify cart total price, clear cart, then verify cart total price is 0.
   # 4. Add games by name, buy games in current cart, then verify cart is empty.
   # 5. Add several games, remove one game, clear remaining games, then verify all previously added games are not present.
