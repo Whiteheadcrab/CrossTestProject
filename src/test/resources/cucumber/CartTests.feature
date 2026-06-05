@@ -13,6 +13,11 @@ Feature: Cart test
     When Empty current cart
     Then I will verify that games in cart is : ""
 
+  @id(Cart_checkCartTotalPrice_1) @checkCartTotalPrice
+  Scenario: Check cart total price for empty cart
+    When Empty current cart
+    Then I will verify that cart total price is - 0
+
   @id(Cart_checkCartIsEmpty_2) @checkCartIsEmpty
   Scenario Outline: Add games to cart, clear cart and check cart is empty
     When Add game to current cart by name - "<gameName>"
