@@ -141,3 +141,15 @@ Feature: Cart test
       | addType | gameIdentifier                 | expectedTotalPrice |
       | name    | The Witcher 3                  | 39.99              |
       | id      | 1, 11                          | 56.48              |
+
+  # Buy function is not implemented yet; refactor this test when real buy behavior is available.
+  @id(Cart_buyOrderFromCart_1) @buyOrderFromCart
+  Scenario Outline: Add games by name, buy games in current cart, then verify cart is empty
+    When Add game to current cart by name - "<gameName>"
+    When Buy games in current cart
+    Then I will verify that games in cart is : ""
+
+    Examples:
+      | gameName                        |
+      | The Witcher 3                   |
+      | The Witcher 3, Sky Jump Legends |
