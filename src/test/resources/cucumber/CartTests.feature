@@ -129,3 +129,15 @@ Feature: Cart test
       | gameName                        | expectedTotalPrice |
       | The Witcher 3                   | 39.99              |
       | The Witcher 3, Sky Jump Legends | 56.48              |
+
+  @id(Cart_checkCartTotalPrice_3) @checkCartTotalPrice
+  Scenario Outline: Add games by name or id, clear cart and check cart total price
+    When Add game to current cart by <addType> - "<gameIdentifier>"
+    Then I will verify that cart total price is - <expectedTotalPrice>
+    When Empty current cart
+    Then I will verify that cart total price is - 0
+
+    Examples:
+      | addType | gameIdentifier                 | expectedTotalPrice |
+      | name    | The Witcher 3                  | 39.99              |
+      | id      | 1, 11                          | 56.48              |
