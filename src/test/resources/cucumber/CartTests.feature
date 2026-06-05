@@ -13,11 +13,6 @@ Feature: Cart test
     When Empty current cart
     Then I will verify that games in cart is : ""
 
-  @id(Cart_checkCartTotalPrice_1) @checkCartTotalPrice
-  Scenario: Check cart total price for empty cart
-    When Empty current cart
-    Then I will verify that cart total price is - 0
-
   @id(Cart_checkCartIsEmpty_2) @checkCartIsEmpty
   Scenario Outline: Add games to cart, clear cart and check cart is empty
     When Add game to current cart by name - "<gameName>"
@@ -119,3 +114,18 @@ Feature: Cart test
       | 1, 11    | The Witcher 3, Sky Jump Legends                | The Witcher 3      | Sky Jump Legends         |
       | 4, 13    | Space Farmers, Ocean Puzzle Quest              | Ocean Puzzle Quest | Space Farmers            |
       | 1, 11, 4 | The Witcher 3, Sky Jump Legends, Space Farmers | Sky Jump Legends   | The Witcher 3, Space Farmers |
+
+  @id(Cart_checkCartTotalPrice_1) @checkCartTotalPrice
+  Scenario: Check cart total price for empty cart
+    When Empty current cart
+    Then I will verify that cart total price is - 0
+
+  @id(Cart_checkCartTotalPrice_2) @checkCartTotalPrice
+  Scenario Outline: Add games by name and check cart total price
+    When Add game to current cart by name - "<gameName>"
+    Then I will verify that cart total price is - <expectedTotalPrice>
+
+    Examples:
+      | gameName                        | expectedTotalPrice |
+      | The Witcher 3                   | 39.99              |
+      | The Witcher 3, Sky Jump Legends | 56.48              |
