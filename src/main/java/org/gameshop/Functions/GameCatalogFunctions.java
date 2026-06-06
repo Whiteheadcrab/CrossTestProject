@@ -2,11 +2,13 @@ package org.gameshop.Functions;
 
 import org.gameshop.Game;
 import org.gameshop.GameCatalogData;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
+@Service
 public class GameCatalogFunctions {
     //Initialize list for games
     private final List<Game> games = GameCatalogData.getGames();
